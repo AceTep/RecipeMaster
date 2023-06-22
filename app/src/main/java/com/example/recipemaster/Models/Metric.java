@@ -1,2 +1,8 @@
-package com.example.recipemaster.Models;public class Metric {
+package com.example.recipemaster.Models;
+
+public class Metric {
+    public double amount;
+    public String unitShort;
+    public String unitLong;
 }
+

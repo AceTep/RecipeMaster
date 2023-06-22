@@ -1,2 +1,7 @@
-package com.example.recipemaster.Models;public class RandomRecipeApiResponse {
+package com.example.recipemaster.Models;
+
+import java.util.ArrayList;
+
+public class RandomRecipeApiResponse {
+    public ArrayList<Recipe> recipes;
 }

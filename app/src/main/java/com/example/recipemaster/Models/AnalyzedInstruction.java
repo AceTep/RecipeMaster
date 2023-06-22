@@ -1,2 +1,8 @@
-package com.example.recipemaster.Models;public class AnalyzedInstruction {
+package com.example.recipemaster.Models;
+
+import java.util.ArrayList;
+
+public class AnalyzedInstruction {
+    public String name;
+    public ArrayList<Step> steps;
 }
