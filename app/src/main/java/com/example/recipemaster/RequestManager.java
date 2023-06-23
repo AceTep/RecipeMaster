@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.example.recipemaster.Listeners.RandomRecipeResponseListener;
 import com.example.recipemaster.Listeners.RecipeDetailsListener;
+import com.example.recipemaster.Listeners.SimilarRecipesListener;
 import com.example.recipemaster.Models.RandomRecipeApiResponse;
 import com.example.recipemaster.Models.RecipeDetailsResponse;
+import com.example.recipemaster.Models.SimilarRecipeResponse;
 
 import java.util.List;
 
@@ -71,6 +73,27 @@ public class RequestManager {
 
     }
 
+    public void getSimilarRecipes(SimilarRecipesListener listener,int id){
+        CallSimilarRecipes callSimilarRecipes = retrofit.create(CallSimilarRecipes.class);
+        Call<List<SimilarRecipeResponse>> call = callSimilarRecipes.callSimilarRecipes(id,"10", context.getString(R.string.rapidapikey));
+        call.enqueue(new Callback<List<SimilarRecipeResponse>>() {
+            @Override
+            public void onResponse(Call<List<SimilarRecipeResponse>> call, Response<List<SimilarRecipeResponse>> response) {
+                if(!response.isSuccessful()){
+                    listener.didError(response.message());
+                    return;
+                }
+                listener.didFetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<List<SimilarRecipeResponse>> call, Throwable t) {
+                listener.didError(t.getMessage());
+            }
+        });
+    }
+
+
     private interface CallRandomRecipes{
         @GET("/recipes/random")
         Call<RandomRecipeApiResponse> callRandomRecipe(
@@ -85,6 +108,15 @@ public class RequestManager {
         @GET("recipes/{id}/information")
         Call<RecipeDetailsResponse> callRecipeDetails(
                 @Path("id") int id,
+                @Query("rapidapi-key") String rapidapikey
+        );
+    }
+
+    private interface  CallSimilarRecipes{
+        @GET("recipes/{id}/similar")
+        Call<List<SimilarRecipeResponse>> callSimilarRecipes(
+                @Path("id") int id,
+                @Query("number") String number,
                 @Query("rapidapi-key") String rapidapikey
         );
     }
