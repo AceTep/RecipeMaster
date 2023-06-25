@@ -9,11 +9,15 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:background="@drawable/roundstyle"
+
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView_instructions_step_items"
             android:layout_width="100dp"
+            android:background="@drawable/roundstyle"
+
             android:scaleType="center"
             android:layout_height="60dp"/>
         <TextView

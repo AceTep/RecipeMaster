@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="@color/yellow2"
     android:orientation="vertical"
     tools:context=".RecipeDetailsActivity">
 
@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"/>
             <ImageView
                 android:id="@+id/imageView_meal_image"
+                android:background="@drawable/roundstyle"
                 android:layout_margin="8dp"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
@@ -59,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <androidx.recyclerview.widget.RecyclerView
+                android:background="@drawable/roundstyle"
                 android:id="@+id/recycler_meal_instructions"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
@@ -74,6 +76,8 @@
                 android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:background="@drawable/roundstyle"
+
                 android:id="@+id/recycler_meal_similar"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
@@ -89,6 +93,8 @@
                 android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:background="@drawable/roundstyle"
+
                 android:id="@+id/recycler_meal_ingredients"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"

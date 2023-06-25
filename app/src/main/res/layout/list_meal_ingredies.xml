@@ -5,6 +5,7 @@
     app:cardBackgroundColor="@color/white"
     app:cardElevation="8dp"
     android:layout_margin="8dp"
+    android:background="@drawable/roundstyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -29,6 +30,7 @@
 
         <ImageView
             android:id="@+id/imageView_ingredients"
+            android:background="@drawable/roundstyle"
             android:scaleType="center"
             android:layout_width="80dp"
             android:layout_height="50dp"/>
