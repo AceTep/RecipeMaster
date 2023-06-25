@@ -2,9 +2,11 @@ package com.example.recipemaster;
 
 import android.content.Context;
 
+import com.example.recipemaster.Listeners.IntructionsListener;
 import com.example.recipemaster.Listeners.RandomRecipeResponseListener;
 import com.example.recipemaster.Listeners.RecipeDetailsListener;
 import com.example.recipemaster.Listeners.SimilarRecipesListener;
+import com.example.recipemaster.Models.InstructionsResponse;
 import com.example.recipemaster.Models.RandomRecipeApiResponse;
 import com.example.recipemaster.Models.RecipeDetailsResponse;
 import com.example.recipemaster.Models.SimilarRecipeResponse;
@@ -93,6 +95,26 @@ public class RequestManager {
         });
     }
 
+    public void getInstructions(IntructionsListener listener, int id){
+        CallInstructions callInstructions = retrofit.create(CallInstructions.class);
+        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, context.getString(R.string.rapidapikey));
+        call.enqueue(new Callback<List<InstructionsResponse>>() {
+            @Override
+            public void onResponse(Call<List<InstructionsResponse>> call, Response<List<InstructionsResponse>> response) {
+                if(!response.isSuccessful()){
+                    listener.didError(response.message());
+                    return;
+                }
+                listener.didFetch(response.body(), response.message());
+            }
+
+            @Override
+            public void onFailure(Call<List<InstructionsResponse>> call, Throwable t) {
+                listener.didError(t.getMessage());
+            }
+        });
+    }
+
 
     private interface CallRandomRecipes{
         @GET("/recipes/random")
@@ -117,6 +139,13 @@ public class RequestManager {
         Call<List<SimilarRecipeResponse>> callSimilarRecipes(
                 @Path("id") int id,
                 @Query("number") String number,
+                @Query("rapidapi-key") String rapidapikey
+        );
+    }
+    private interface  CallInstructions{
+        @GET("recipes/{id}/analyzedInstructions")
+        Call<List<InstructionsResponse>> callInstructions(
+                @Path("id") int id,
                 @Query("rapidapi-key") String rapidapikey
         );
     }
