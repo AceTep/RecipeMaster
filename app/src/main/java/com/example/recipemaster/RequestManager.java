@@ -33,6 +33,7 @@ public class RequestManager {
         this.context = context;
     }
 
+    // Metoda za dohvaćanje slučajno odabranih recepata
     public void getRandomRecipes(RandomRecipeResponseListener listener, List<String> tags){
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
         Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.rapidapikey), "10", tags);
@@ -53,6 +54,7 @@ public class RequestManager {
         });
     }
 
+    // Metoda za dohvaćanje detalja recepta
     public void getRecipeDetails(RecipeDetailsListener listener, int id){
 
         CallRecipeDetails callRecipeDetails = retrofit.create(CallRecipeDetails.class);
@@ -75,6 +77,7 @@ public class RequestManager {
 
     }
 
+    // Metoda za dohvaćanje sličnih recepata
     public void getSimilarRecipes(SimilarRecipesListener listener,int id){
         CallSimilarRecipes callSimilarRecipes = retrofit.create(CallSimilarRecipes.class);
         Call<List<SimilarRecipeResponse>> call = callSimilarRecipes.callSimilarRecipes(id,"10", context.getString(R.string.rapidapikey));
@@ -95,6 +98,7 @@ public class RequestManager {
         });
     }
 
+    // Metoda za dohvaćanje instrukcija za pripremu recepta
     public void getInstructions(IntructionsListener listener, int id){
         CallInstructions callInstructions = retrofit.create(CallInstructions.class);
         Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, context.getString(R.string.rapidapikey));
@@ -115,7 +119,7 @@ public class RequestManager {
         });
     }
 
-
+    // Sučelje za API poziv za dohvaćanje slučajno odabranih recepata
     private interface CallRandomRecipes{
         @GET("/recipes/random")
         Call<RandomRecipeApiResponse> callRandomRecipe(
@@ -125,7 +129,7 @@ public class RequestManager {
         );
     }
 
-
+    // Sučelje za API poziv za dohvaćanje detalja recepta
     private interface  CallRecipeDetails{
         @GET("recipes/{id}/information")
         Call<RecipeDetailsResponse> callRecipeDetails(
@@ -134,6 +138,7 @@ public class RequestManager {
         );
     }
 
+    // Sučelje za API poziv za dohvaćanje sličnih recepata
     private interface  CallSimilarRecipes{
         @GET("recipes/{id}/similar")
         Call<List<SimilarRecipeResponse>> callSimilarRecipes(
@@ -142,6 +147,8 @@ public class RequestManager {
                 @Query("rapidapi-key") String rapidapikey
         );
     }
+
+    // Sučelje za API poziv za dohvaćanje instrukcija za pripremu recepta
     private interface  CallInstructions{
         @GET("recipes/{id}/analyzedInstructions")
         Call<List<InstructionsResponse>> callInstructions(

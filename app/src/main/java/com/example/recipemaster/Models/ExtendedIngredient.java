@@ -15,4 +15,7 @@ public class ExtendedIngredient {
     public String unit;
     public ArrayList<String> meta;
     public Measures measures;
+
+    public ExtendedIngredient(int i, String s, String s1, String s2) {
+    }
 }

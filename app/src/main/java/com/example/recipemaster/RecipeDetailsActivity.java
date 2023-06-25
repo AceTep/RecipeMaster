@@ -30,7 +30,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     int id;
     TextView textView_meal_name, textView_meal_source, textView_meal_summary;
     ImageView imageView_meal_image;
-    RecyclerView recycler_meal_ingredients,recycler_meal_similar, recycler_meal_instructions;
+    RecyclerView recycler_meal_ingredients, recycler_meal_similar, recycler_meal_instructions;
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter ingredientsAdapter;
@@ -42,20 +42,20 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
-        
+
         findViews();
 
         id = Integer.parseInt(getIntent().getStringExtra("id"));
         manager = new RequestManager(this);
-        manager.getRecipeDetails(recipeDetailsListener,id);
-        manager.getSimilarRecipes(similarRecipesListener,id);
-        manager.getInstructions(instructionsListener,id);
+        manager.getRecipeDetails(recipeDetailsListener, id);
+        manager.getSimilarRecipes(similarRecipesListener, id);
+        manager.getInstructions(instructionsListener, id);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading Details...");
         dialog.show();
-
     }
 
+    // Metoda za pronalaženje svih views
     private void findViews() {
         textView_meal_name = findViewById(R.id.textView_meal_name);
         textView_meal_source = findViewById(R.id.textView_meal_source);
@@ -64,8 +64,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         recycler_meal_ingredients = findViewById(R.id.recycler_meal_ingredients);
         recycler_meal_similar = findViewById(R.id.recycler_meal_similar);
         recycler_meal_instructions = findViewById(R.id.recycler_meal_instructions);
-        }
+    }
 
+    // Listener za dohvaćanje detalja recepta
     private final RecipeDetailsListener recipeDetailsListener = new RecipeDetailsListener() {
         @Override
         public void didFetch(RecipeDetailsResponse response, String message) {
@@ -76,7 +77,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             Picasso.get().load(response.image).into(imageView_meal_image);
 
             recycler_meal_ingredients.setHasFixedSize(true);
-            recycler_meal_ingredients.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL,false));
+            recycler_meal_ingredients.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
             ingredientsAdapter = new IngredientsAdapter(RecipeDetailsActivity.this, response.extendedIngredients);
             recycler_meal_ingredients.setAdapter(ingredientsAdapter);
         }
@@ -87,12 +88,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
     };
 
+    // Listener za dohvaćanje sličnih recepata
     final SimilarRecipesListener similarRecipesListener = new SimilarRecipesListener() {
         @Override
         public void didFetch(List<SimilarRecipeResponse> response, String message) {
             recycler_meal_similar.setHasFixedSize(true);
-            recycler_meal_similar.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this,LinearLayoutManager.HORIZONTAL,false));
-            similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response,recipeClickListener);
+            recycler_meal_similar.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+            similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response, recipeClickListener);
             recycler_meal_similar.setAdapter(similarRecipeAdapter);
         }
 
@@ -102,14 +104,16 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
     };
 
+    // Listener za klik na recept
     private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClicked(String id) {
             startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class)
-                    .putExtra("id",id));
+                    .putExtra("id", id));
         }
     };
 
+    // Listener za dohvaćanje instrukcija za pripremu recepta
     private final IntructionsListener instructionsListener = new IntructionsListener() {
         @Override
         public void didFetch(List<InstructionsResponse> response, String message) {

@@ -7,11 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -40,16 +37,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Inicijalizacija dijaloga za prikaz progresne trake
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading...");
 
-
-
+        // Inicijalizacija SearchView-a
         searchView = findViewById(R.id.searchView_home);
         searchView.clearFocus();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
@@ -66,27 +62,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Inicijalizacija Spinnere-a za oznake
         spinner = findViewById(R.id.spinner_tags);
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.tags,
                 R.layout.spinner_text
-                );
+        );
         arrayAdapter.setDropDownViewResource(R.layout.spinner_inner_text);
         spinner.setAdapter(arrayAdapter);
         spinner.setOnItemSelectedListener(spinnerSelectedListener);
 
+        // Inicijalizacija RequestManager-a
         manager = new RequestManager(this);
     }
 
+    // Listener za dohvaćanje nasumičnih recepata
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
         public void didFetch(RandomRecipeApiResponse response, String message) {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,1));
-            randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes,recipeClickListener);
+            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
+            randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
         }
 
@@ -96,26 +95,28 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Listener za odabir stavke iz Spinnera
     private final AdapterView.OnItemSelectedListener spinnerSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             tags.clear();
             tags.add(adapterView.getSelectedItem().toString());
-            manager.getRandomRecipes(randomRecipeResponseListener,tags);
+            manager.getRandomRecipes(randomRecipeResponseListener, tags);
             dialog.show();
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-
+            // Ništa nije odabrano
         }
     };
 
+    // Listener za klik na recept
     private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClicked(String id) {
             startActivity(new Intent(MainActivity.this, RecipeDetailsActivity.class)
-                    .putExtra("id",id));
+                    .putExtra("id", id));
         }
     };
 }

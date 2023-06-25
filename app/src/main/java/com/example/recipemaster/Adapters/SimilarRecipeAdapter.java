@@ -30,42 +30,56 @@ public class SimilarRecipeAdapter extends RecyclerView.Adapter<SimilarRecipeView
         this.listener = listener;
     }
 
+    // Kreiranje ViewHolder-a
     @NonNull
     @Override
     public SimilarRecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new SimilarRecipeViewHolder(LayoutInflater.from(context).inflate(R.layout.list_similar_recipe, parent, false));
+        // Inflating layout "list_similar_recipe" kako bi se prikazao jedan element u RecyclerView-u
+        View view = LayoutInflater.from(context).inflate(R.layout.list_similar_recipe, parent, false);
+        return new SimilarRecipeViewHolder(view);
     }
 
+    // Povezivanje podataka s ViewHolder-om
     @Override
     public void onBindViewHolder(@NonNull SimilarRecipeViewHolder holder, int position) {
+        // Postavljanje naslova sličnog recepta
         holder.textView_similar_title.setText(list.get(position).title);
         holder.textView_similar_title.setSelected(true);
-        holder.textView_similar_serving.setText(list.get(position).servings+" persons");
-        holder.textView_similar_serving.setSelected(true);
-        Picasso.get().load("https://spoonacular.com/recipeImages/"+list.get(position).id+"-556x370."+list.get(position).imageType).into(holder.imageView_similar);
 
+        // Postavljanje broja porcija sličnog recepta
+        holder.textView_similar_serving.setText(list.get(position).servings + " persons");
+        holder.textView_similar_serving.setSelected(true);
+
+        // Učitavanje slike sličnog recepta korištenjem Picasso biblioteke
+        Picasso.get().load("https://spoonacular.com/recipeImages/" + list.get(position).id + "-556x370." + list.get(position).imageType).into(holder.imageView_similar);
+
+        // Postavljanje klika na pojedinačni element u RecyclerView-u
         holder.similar_recipe_holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Pozivanje metode onRecipeClicked iz RecipeClickListener interfejsa
+                // i proslijeđivanje ID-a sličnog recepta koji je kliknut
                 listener.onRecipeClicked(String.valueOf(list.get(holder.getAdapterPosition()).id));
             }
         });
     }
 
+    // Vraćanje ukupnog broja sličnih recepata
     @Override
     public int getItemCount() {
         return list.size();
     }
 }
 
-class SimilarRecipeViewHolder extends RecyclerView.ViewHolder{
-
+// ViewHolder klasa za prikazivanje elemenata u RecyclerView-u
+class SimilarRecipeViewHolder extends RecyclerView.ViewHolder {
     CardView similar_recipe_holder;
     TextView textView_similar_title, textView_similar_serving;
     ImageView imageView_similar;
 
     public SimilarRecipeViewHolder(@NonNull View itemView) {
         super(itemView);
+        // Inicijalizacija elemenata prikaza iz layout-a "list_similar_recipe"
         similar_recipe_holder = itemView.findViewById(R.id.similar_recipe_holder);
         textView_similar_title = itemView.findViewById(R.id.textView_similar_title);
         textView_similar_serving = itemView.findViewById(R.id.textView_similar_serving);

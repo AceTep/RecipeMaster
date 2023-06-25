@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipemaster.Models.Equipment;
-import com.example.recipemaster.Models.Ingredient;
 import com.example.recipemaster.R;
 import com.squareup.picasso.Picasso;
 
@@ -27,32 +26,43 @@ public class InstructionsEquipmentsAdapter extends RecyclerView.Adapter<Instruct
         this.list = list;
     }
 
+    // Kreiranje ViewHolder-a
     @NonNull
     @Override
     public InstructionEquipmentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new InstructionEquipmentsViewHolder(LayoutInflater.from(context).inflate(R.layout.list_instructions_step_items, parent, false));
+        // Inflating layout "list_instructions_step_items" kako bi se prikazao jedan element u RecyclerView-u
+        View view = LayoutInflater.from(context).inflate(R.layout.list_instructions_step_items, parent, false);
+        return new InstructionEquipmentsViewHolder(view);
     }
 
+    // Povezivanje podataka s ViewHolder-om
     @Override
     public void onBindViewHolder(@NonNull InstructionEquipmentsViewHolder holder, int position) {
-            holder.textView_instruction_step_item.setText(list.get(position).name);
-            holder.textView_instruction_step_item.setSelected(true);
-            Picasso.get().load("https://spoonacular.com/cdn/equipment_100x100/"+list.get(position).image).into(holder.imageView_instructions_step_items);
+        // Postavljanje naziva opreme
+        holder.textView_instruction_step_item.setText(list.get(position).name);
+        holder.textView_instruction_step_item.setSelected(true);
+
+        // Učitavanje slike opreme pomoću Picasso biblioteke i postavljanje u ImageView
+        Picasso.get().load("https://spoonacular.com/cdn/equipment_100x100/"+list.get(position).image).into(holder.imageView_instructions_step_items);
     }
 
+    // Vraćanje ukupnog broja stavki u popisu opreme
     @Override
     public int getItemCount() {
         return list.size();
     }
 }
 
-class InstructionEquipmentsViewHolder extends RecyclerView.ViewHolder{
+// ViewHolder klasa za prikazivanje elemenata u RecyclerView-u
+class InstructionEquipmentsViewHolder extends RecyclerView.ViewHolder {
 
     ImageView imageView_instructions_step_items;
     TextView textView_instruction_step_item;
 
     public InstructionEquipmentsViewHolder(@NonNull View itemView) {
         super(itemView);
+        // Inicijalizacija elemenata prikaza iz layout-a "list_instructions_step_items"
         imageView_instructions_step_items = itemView.findViewById(R.id.imageView_instructions_step_items);
         textView_instruction_step_item = itemView.findViewById(R.id.textView_instruction_step_item);
-}}
+    }
+}
