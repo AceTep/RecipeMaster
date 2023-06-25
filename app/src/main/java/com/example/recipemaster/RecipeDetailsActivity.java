@@ -28,7 +28,6 @@ import java.util.List;
 public class RecipeDetailsActivity extends AppCompatActivity {
 
     int id;
-
     TextView textView_meal_name, textView_meal_source, textView_meal_summary;
     ImageView imageView_meal_image;
     RecyclerView recycler_meal_ingredients,recycler_meal_similar, recycler_meal_instructions;
@@ -88,7 +87,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
     };
 
-    private final SimilarRecipesListener similarRecipesListener = new SimilarRecipesListener() {
+    final SimilarRecipesListener similarRecipesListener = new SimilarRecipesListener() {
         @Override
         public void didFetch(List<SimilarRecipeResponse> response, String message) {
             recycler_meal_similar.setHasFixedSize(true);
