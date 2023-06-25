@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -40,10 +43,16 @@ public class MainActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading...");
 
+
+
         searchView = findViewById(R.id.searchView_home);
+        searchView.clearFocus();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
                 tags.clear();
                 tags.add(query);
                 manager.getRandomRecipes(randomRecipeResponseListener, tags);
@@ -68,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(spinnerSelectedListener);
 
         manager = new RequestManager(this);
-//        manager.getRandomRecipes(randomRecipeResponseListener);
-//        dialog.show();
-
     }
 
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
